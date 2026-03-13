@@ -1,5 +1,7 @@
-package com.example.sqlassist;
+package com.example.sqlassist.main;
 
+import com.example.sqlassist.pages.LoginPage;
+import com.example.sqlassist.pages.RegisterPage;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
