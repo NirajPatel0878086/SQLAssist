@@ -1,5 +1,7 @@
-package com.example.sqlassist;
+package com.example.sqlassist.pages;
 
+import com.example.sqlassist.main.SQLAssist;
+import com.example.sqlassist.pages.DashboardPage;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -7,20 +9,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class RegisterPage {
+public class LoginPage {
 
     public static void show(Stage stage) {
 
-        Label title = new Label("Register Form");
+        Label title = new Label("Login Form");
         title.setFont(new Font(25));
-
-        Label firstNameLabel = new Label("First Name");
-        TextField firstName = new TextField();
-        firstName.setMaxWidth(200);
-
-        Label lastNameLabel = new Label("Last Name");
-        TextField lastName = new TextField();
-        lastName.setMaxWidth(200);
 
         Label emailLabel = new Label("Email");
         TextField email = new TextField();
@@ -30,37 +24,31 @@ public class RegisterPage {
         PasswordField password = new PasswordField();
         password.setMaxWidth(200);
 
-        // Label to show messages to user
         Label messageLabel = new Label();
 
-        Button submitBtn = new Button("Submit");
+        Button loginBtn = new Button("Login");
         Button backBtn = new Button("Back");
 
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
         layout.getChildren().addAll(
                 title,
-                firstNameLabel, firstName,
-                lastNameLabel, lastName,
                 emailLabel, email,
                 passwordLabel, password,
-                submitBtn,
+                loginBtn,
                 messageLabel,
                 backBtn
         );
 
         Scene scene = new Scene(layout, 700, 450);
 
-        // This runs when the user clicks the Submit button in the Register form
-        submitBtn.setOnAction(e -> {
-            if (firstName.getText().isEmpty() ||
-                    lastName.getText().isEmpty() ||
-                    email.getText().isEmpty() ||
-                    password.getText().isEmpty()) {
-
+        // This runs when the user clicks the Login button
+        loginBtn.setOnAction(e -> {
+            if (email.getText().isEmpty() || password.getText().isEmpty()) {
                 messageLabel.setText("Please fill all fields!");
             } else {
-                messageLabel.setText("Registration Successful!");
+                messageLabel.setText("Login Successful!");
+                DashboardPage.show(stage);
             }
         });
 

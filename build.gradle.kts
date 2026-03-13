@@ -27,7 +27,7 @@ tasks.withType<JavaCompile> {
 
 application {
     mainModule.set("com.example.sqlassist")
-    mainClass.set("com.example.sqlassist.SQLAssist")
+    mainClass.set("com.example.sqlassist.main.SQLAssist")
 }
 
 javafx {
@@ -38,6 +38,7 @@ javafx {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    implementation("org.xerial:sqlite-jdbc:3.51.2.0")
 }
 
 tasks.withType<Test> {
