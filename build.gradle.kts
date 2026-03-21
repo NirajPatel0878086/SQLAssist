@@ -38,7 +38,7 @@ javafx {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-    implementation("org.xerial:sqlite-jdbc:3.51.2.0")
+    implementation("mysql:mysql-connector-java:8.0.33")
 }
 
 tasks.withType<Test> {

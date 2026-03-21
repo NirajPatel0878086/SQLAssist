@@ -1,7 +1,7 @@
 package com.example.sqlassist.pages;
 
+import com.example.sqlassist.database.Database;
 import com.example.sqlassist.main.SQLAssist;
-import com.example.sqlassist.session.AppSession;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,34 +10,47 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
-public class DashboardPage {
+public class DashBoardPage {
 
     public static void show(Stage stage) {
 
         Label title = new Label("SQL Assist Dashboard");
         title.setFont(new Font("Arial", 28));
 
-        Label dbLabel = new Label("Current Database: " + AppSession.currentDatabase);
+        Label messageLabel = new Label();
 
-        Button createDatabaseBtn = new Button("Create Database");
+        Button settingsBtn = new Button("Account Settings");
+        Button initBtn = new Button("Initialize Database");
         Button logoutBtn = new Button("Logout");
 
-        createDatabaseBtn.setPrefWidth(220);
+        settingsBtn.setPrefWidth(220);
+        initBtn.setPrefWidth(220);
         logoutBtn.setPrefWidth(220);
 
         VBox layout = new VBox(15);
         layout.setAlignment(Pos.CENTER);
         layout.getChildren().addAll(
                 title,
-                dbLabel,
-                createDatabaseBtn,
+                settingsBtn,
+                initBtn,
+                messageLabel,
                 logoutBtn
         );
 
         Scene scene = new Scene(layout, 700, 450);
 
-        createDatabaseBtn.setOnAction(e -> CreateDatabasePage.show(stage));
+        settingsBtn.setOnAction(e -> {
+            AccountSettingPage.show(stage);
+        });
+
+        initBtn.setOnAction(e -> {
+            try {
+                Database.getInstance();
+                messageLabel.setText("3 tables created successfully!");
+            } catch (Exception ex) {
+                messageLabel.setText("Database initialization failed!");
+            }
+        });
 
         logoutBtn.setOnAction(e -> {
             try {

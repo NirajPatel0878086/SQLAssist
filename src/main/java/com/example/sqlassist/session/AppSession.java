@@ -5,6 +5,5 @@ package com.example.sqlassist.session;
  * For now, it stores current database name.
  */
 public class AppSession {
-
     public static String currentDatabase = "";
 }
