@@ -46,9 +46,10 @@ public class DashBoardPage {
         initBtn.setOnAction(e -> {
             try {
                 Database.getInstance();
-                messageLabel.setText("3 tables created successfully!");
+                messageLabel.setText("Database initialized successfully!");
             } catch (Exception ex) {
-                messageLabel.setText("Database initialization failed!");
+                messageLabel.setText("Error: " + ex.getMessage());
+                ex.printStackTrace();
             }
         });
 
