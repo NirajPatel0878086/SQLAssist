@@ -1,7 +1,10 @@
 package com.example.sqlassist.pages;
+import com.example.sqlassist.database.Database;
+import com.example.sqlassist.main.SQLAssist;
 
 import com.example.sqlassist.models.DbSetting;
 import com.example.sqlassist.utils.FileUtil;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,61 +15,56 @@ public class AccountSettingPage {
 
     public static void show(Stage stage) {
 
+        //page title
         Label title = new Label("Account Settings");
+        title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
+        // Labels
+        Label serverLabel = new Label("Server Location");
+        Label dbLabel = new Label("Database Name");
+        Label userLabel = new Label("Username");
+        Label passLabel = new Label("Password");
+
+        serverLabel.setStyle("-fx-font-weight: bold;");
+        dbLabel.setStyle("-fx-font-weight: bold;");
+        userLabel.setStyle("-fx-font-weight: bold;");
+        passLabel.setStyle("-fx-font-weight: bold;");
+
+        // Input Fields
         TextField serverField = new TextField();
-        serverField.setPromptText("Server Location");
-
         TextField dbField = new TextField();
-        dbField.setPromptText("Database Name");
-
         TextField userField = new TextField();
-        userField.setPromptText("Username");
-
         PasswordField passField = new PasswordField();
-        passField.setPromptText("Password");
 
-        Label message = new Label();
+        // Width control
+        serverField.setMaxWidth(250);
+        dbField.setMaxWidth(250);
+        userField.setMaxWidth(250);
+        passField.setMaxWidth(250);
 
+        //Buttons
         Button saveBtn = new Button("Save Settings");
         Button testBtn = new Button("Test Connection");
         Button backBtn = new Button("Back");
 
-        DbSetting old = FileUtil.load();
-        if (old != null) {
-            serverField.setText(old.server);
-            dbField.setText(old.database);
-            userField.setText(old.username);
-            passField.setText(old.password);
+        //message label for showing result
+        Label messageLabel = new Label();
+
+        // Load saved settings
+        try {
+            DbSetting setting = FileUtil.load();
+            if (setting != null) {
+                serverField.setText(setting.server);
+                dbField.setText(setting.database);
+                userField.setText(setting.username);
+                passField.setText(setting.password);
+            }
+        } catch (Exception e) {
+            messageLabel.setText("Failed to load settings");
         }
 
-        VBox layout = new VBox(10);
-        layout.setAlignment(Pos.CENTER);
-        layout.getChildren().addAll(
-                title,
-                serverField,
-                dbField,
-                userField,
-                passField,
-                saveBtn,
-                testBtn,
-                message,
-                backBtn
-        );
-
-        Scene scene = new Scene(layout, 700, 450);
-
+        // Save button
         saveBtn.setOnAction(e -> {
-
-            if (serverField.getText().isEmpty() ||
-                    dbField.getText().isEmpty() ||
-                    userField.getText().isEmpty() ||
-                    passField.getText().isEmpty()) {
-
-                message.setText("Please fill all fields!");
-                return;
-            }
-
             DbSetting setting = new DbSetting(
                     serverField.getText(),
                     dbField.getText(),
@@ -74,16 +72,68 @@ public class AccountSettingPage {
                     passField.getText()
             );
 
-            FileUtil.save(setting);
-            message.setText("Settings Saved!");
+            try {
+                //Save login information to settings
+                FileUtil.save(setting);
+                messageLabel.setText("Settings saved successfully.");
+                //if info correct and saved than it will open main application
+                SQLAssist.showMainApp(stage);
+            } catch (Exception ex) {
+                messageLabel.setText("Failed to save settings.");
+            }
         });
 
+        // Test Database connection button
         testBtn.setOnAction(e -> {
-            message.setText("Use Initialize Database to test connection");
+            try {
+                DbSetting setting = new DbSetting(
+                        serverField.getText(),
+                        dbField.getText(),
+                        userField.getText(),
+                        passField.getText()
+                );
+
+                FileUtil.save(setting);
+
+                Database.getInstance();
+                messageLabel.setText("Connection successful.");
+            } catch (Exception ex) {
+                messageLabel.setText("Connection failed.");
+                ex.printStackTrace();
+            }
         });
 
-        backBtn.setOnAction(e -> DashBoardPage.show(stage));
+        //Back button to go home
+        backBtn.setText("Back");
+        backBtn.setOnAction(e -> HomePage.show(stage));
 
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(20));
+        layout.setAlignment(Pos.CENTER_LEFT);
+
+        layout.getChildren().addAll(
+                title,
+
+                serverLabel,
+                serverField,
+
+                dbLabel,
+                dbField,
+
+                userLabel,
+                userField,
+
+                passLabel,
+                passField,
+
+                saveBtn,
+                testBtn,
+                messageLabel,
+                backBtn
+        );
+
+        Scene scene = new Scene(layout, 500, 500);
         stage.setScene(scene);
+        stage.show();
     }
 }

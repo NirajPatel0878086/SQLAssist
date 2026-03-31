@@ -2,15 +2,18 @@ package com.example.sqlassist.database;
 
 public class DBConst {
 
+    //User table
     public static final String TABLE_USERS = "users";
     public static final String USER_COL_ID = "id";
     public static final String USER_COL_NAME = "name";
     public static final String USER_COL_EMAIL = "email";
 
+    //Categories table
     public static final String TABLE_CATEGORIES = "categories";
     public static final String CATEGORY_COL_ID = "id";
     public static final String CATEGORY_COL_NAME = "name";
 
+    //Item table
     public static final String TABLE_ITEMS = "items";
     public static final String ITEM_COL_ID = "id";
     public static final String ITEM_COL_NAME = "name";

@@ -1,57 +1,63 @@
 package com.example.sqlassist.main;
 
-import com.example.sqlassist.pages.AccountSettingPage;
-import com.example.sqlassist.pages.DashBoardPage;
-import com.example.sqlassist.pages.DashBoardPage;
+import com.example.sqlassist.database.Database;
+import com.example.sqlassist.pages.HomePage;
+import com.example.sqlassist.tabs.*;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class SQLAssist extends Application {
 
     @Override
     public void start(Stage stage) {
+        //Open Homepage
+        HomePage.show(stage);
+    }
+    //This method open main application
+    public static void showMainApp(Stage stage) {
+        BorderPane root = new BorderPane();
 
-        Label title = new Label("SQL ASSIST");
-        title.setFont(new Font("Arial", 40));
+        //Menu bar
+        MenuBar menuBar = new MenuBar();
+        Menu fileMenu = new Menu("File");
+        MenuItem exit = new MenuItem("Exit");
 
-        Label subtitle = new Label("Database Management Application");
+        fileMenu.getItems().add(exit);
+        menuBar.getMenus().add(fileMenu);
 
-        Button settingsBtn = new Button("Account Settings");
-        Button dashboardBtn = new Button("Dashboard");
-        Button exitBtn = new Button("Exit");
+        //Exit button
+        exit.setOnAction(e -> System.exit(0));
 
-        settingsBtn.setPrefWidth(220);
-        dashboardBtn.setPrefWidth(220);
-        exitBtn.setPrefWidth(220);
-
-        VBox pane = new VBox(15);
-        pane.setAlignment(Pos.CENTER);
-        pane.getChildren().addAll(
-                title,
-                subtitle,
-                settingsBtn,
-                dashboardBtn,
-                exitBtn
+        //Tab pane
+        TabPane tabPane = new TabPane();
+        tabPane.getTabs().addAll(
+                AddCategoryTab.getInstance(),
+                AddItemTab.getInstance(),
+                RemoveItemTab.getInstance(),
+                ViewByCategoryTab.getInstance(),
+                StatisticsTab.getInstance()
         );
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        Scene homeScene = new Scene(pane, 700, 450);
+        root.setTop(menuBar);
+        root.setCenter(tabPane);
 
-        settingsBtn.setOnAction(e -> AccountSettingPage.show(stage));
-        dashboardBtn.setOnAction(e -> DashBoardPage.show(stage));
-        exitBtn.setOnAction(e -> stage.close());
+        //Initialize database
+        Database.getInstance();
 
+        Scene scene = new Scene(root, 700, 500);
         stage.setTitle("SQL Assist");
-        stage.setScene(homeScene);
+        stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch();
     }
 }
