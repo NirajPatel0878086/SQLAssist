@@ -15,5 +15,4 @@ module com.example.sqlassist {
     exports com.example.sqlassist.models;
     exports com.example.sqlassist.utils;
     exports com.example.sqlassist.database;
-    exports com.example.sqlassist.session;
 }
