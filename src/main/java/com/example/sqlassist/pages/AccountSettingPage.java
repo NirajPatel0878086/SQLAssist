@@ -1,4 +1,5 @@
 package com.example.sqlassist.pages;
+import com.example.sqlassist.SoundPlayer;
 import com.example.sqlassist.database.Database;
 import com.example.sqlassist.main.SQLAssist;
 
@@ -65,6 +66,7 @@ public class AccountSettingPage {
 
         // Save button
         saveBtn.setOnAction(e -> {
+            SoundPlayer.click();
             DbSetting setting = new DbSetting(
                     serverField.getText(),
                     dbField.getText(),
@@ -76,15 +78,18 @@ public class AccountSettingPage {
                 //Save login information to settings
                 FileUtil.save(setting);
                 messageLabel.setText("Settings saved successfully.");
+                SoundPlayer.playSuccess();
                 //if info correct and saved than it will open main application
                 SQLAssist.showMainApp(stage);
             } catch (Exception ex) {
                 messageLabel.setText("Failed to save settings.");
+                SoundPlayer.playError();
             }
         });
 
         // Test Database connection button
         testBtn.setOnAction(e -> {
+            SoundPlayer.click();
             try {
                 DbSetting setting = new DbSetting(
                         serverField.getText(),
@@ -97,15 +102,20 @@ public class AccountSettingPage {
 
                 Database.getInstance();
                 messageLabel.setText("Connection successful.");
+                SoundPlayer.playSuccess();
             } catch (Exception ex) {
                 messageLabel.setText("Connection failed.");
+                SoundPlayer.playError();
                 ex.printStackTrace();
             }
         });
 
         //Back button to go home
         backBtn.setText("Back");
-        backBtn.setOnAction(e -> HomePage.show(stage));
+        backBtn.setOnAction(e -> {
+            SoundPlayer.click();
+            HomePage.show(stage);
+        });
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));

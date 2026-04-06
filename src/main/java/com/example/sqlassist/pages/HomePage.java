@@ -1,5 +1,6 @@
 package com.example.sqlassist.pages;
 
+import com.example.sqlassist.SoundPlayer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,7 +24,10 @@ public class HomePage {
         loginBtn.setPrefWidth(200);
 
         //When login button is clicked it will open account setting page
-        loginBtn.setOnAction(e -> AccountSettingPage.show(stage));
+        loginBtn.setOnAction(e -> {
+            SoundPlayer.click();
+            AccountSettingPage.show(stage);
+        });
 
         VBox layout = new VBox(15);
         layout.setAlignment(Pos.CENTER);
