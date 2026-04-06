@@ -4,6 +4,7 @@ import com.example.sqlassist.database.Database;
 import com.example.sqlassist.main.SQLAssist;
 
 import com.example.sqlassist.models.DbSetting;
+import com.example.sqlassist.utils.Animations;
 import com.example.sqlassist.utils.FileUtil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 
 public class AccountSettingPage {
 
@@ -66,6 +68,8 @@ public class AccountSettingPage {
 
         // Save button
         saveBtn.setOnAction(e -> {
+
+            //sound
             SoundPlayer.click();
             DbSetting setting = new DbSetting(
                     serverField.getText(),
@@ -78,17 +82,24 @@ public class AccountSettingPage {
                 //Save login information to settings
                 FileUtil.save(setting);
                 messageLabel.setText("Settings saved successfully.");
+
+                //sound
                 SoundPlayer.playSuccess();
                 //if info correct and saved than it will open main application
                 SQLAssist.showMainApp(stage);
             } catch (Exception ex) {
                 messageLabel.setText("Failed to save settings.");
+
+                //sound and animation
                 SoundPlayer.playError();
+                Animations.shake(messageLabel);
             }
         });
 
         // Test Database connection button
         testBtn.setOnAction(e -> {
+
+            //sound
             SoundPlayer.click();
             try {
                 DbSetting setting = new DbSetting(
@@ -102,10 +113,15 @@ public class AccountSettingPage {
 
                 Database.getInstance();
                 messageLabel.setText("Connection successful.");
+
+                //sound
                 SoundPlayer.playSuccess();
             } catch (Exception ex) {
                 messageLabel.setText("Connection failed.");
+
+                //sound and animation
                 SoundPlayer.playError();
+                Animations.shake(messageLabel);
                 ex.printStackTrace();
             }
         });
@@ -113,6 +129,8 @@ public class AccountSettingPage {
         //Back button to go home
         backBtn.setText("Back");
         backBtn.setOnAction(e -> {
+
+            //sound
             SoundPlayer.click();
             HomePage.show(stage);
         });
@@ -141,6 +159,12 @@ public class AccountSettingPage {
                 messageLabel,
                 backBtn
         );
+
+        //Animations
+        Animations.fadeIn(layout, 400);
+        Animations.addHoverScale(saveBtn);
+        Animations.addHoverScale(testBtn);
+        Animations.addHoverScale(backBtn);
 
         Scene scene = new Scene(layout, 500, 500);
         stage.setScene(scene);

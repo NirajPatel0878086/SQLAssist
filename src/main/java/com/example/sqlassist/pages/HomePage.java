@@ -1,6 +1,7 @@
 package com.example.sqlassist.pages;
 
 import com.example.sqlassist.SoundPlayer;
+import com.example.sqlassist.utils.Animations;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,7 +26,11 @@ public class HomePage {
 
         //When login button is clicked it will open account setting page
         loginBtn.setOnAction(e -> {
+
+            //sound
             SoundPlayer.click();
+            //Animation
+            Animations.clickBounce(loginBtn);
             AccountSettingPage.show(stage);
         });
 
@@ -36,6 +41,12 @@ public class HomePage {
                 subtitle,
                 loginBtn
         );
+
+        //Animation
+        Animations.fadeIn(layout, 500);
+        Animations.addHoverScale(loginBtn);
+        Animations.slideIn(title, 600);
+        Animations.slideIn(subtitle, 700);
 
         //Create scene and stage
         Scene scene = new Scene(layout, 700, 450);
