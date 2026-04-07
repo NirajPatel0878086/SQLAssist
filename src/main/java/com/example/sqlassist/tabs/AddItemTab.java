@@ -16,6 +16,7 @@ import com.example.sqlassist.table.ItemTable;
 public class AddItemTab extends Tab {
 
     private static AddItemTab instance;
+    private final ComboBox<Category> categoryComboBox;
 
     private AddItemTab() {
         this.setText("Add Item");
@@ -24,7 +25,6 @@ public class AddItemTab extends Tab {
         root.setHgap(10);
         root.setVgap(10);
 
-        CategoryTable categoryTable = CategoryTable.getInstance();
         ItemTable itemTable = ItemTable.getInstance();
 
         Text nameLabel = new Text("Item Name:");
@@ -43,8 +43,8 @@ public class AddItemTab extends Tab {
         root.add(priceField, 1, 2);
 
         Text categoryLabel = new Text("Category:");
-        ComboBox<Category> categoryComboBox = new ComboBox<>();
-        categoryComboBox.setItems(FXCollections.observableArrayList(categoryTable.getAllCategories()));
+        categoryComboBox = new ComboBox<>();
+        refreshCategories();
         if (!categoryComboBox.getItems().isEmpty()) {
             categoryComboBox.getSelectionModel().select(0);
         }
@@ -62,7 +62,7 @@ public class AddItemTab extends Tab {
                 );
 
                 itemTable.createItem(item);
-
+                RemoveItemTab.getInstance().refreshTable();
                 nameField.clear();
                 quantityField.clear();
                 priceField.clear();
@@ -82,7 +82,17 @@ public class AddItemTab extends Tab {
 
         this.setContent(root);
     }
+    //Refresh Category method
+    public void refreshCategories(){
+        CategoryTable categoryTable = CategoryTable.getInstance();
 
+        categoryComboBox.setItems(
+                FXCollections.observableArrayList(categoryTable.getAllCategories())
+        );
+        if (!categoryComboBox.getItems().isEmpty()){
+            categoryComboBox.getSelectionModel().select(0);
+        }
+    }
     public static AddItemTab getInstance() {
         if (instance == null) {
             instance = new AddItemTab();

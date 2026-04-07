@@ -15,7 +15,7 @@ public class Database {
     private static Database instance;
 
     //To set the database connection
-    private Connection connection;
+    private final Connection connection;
 
     private Database() {
         try {

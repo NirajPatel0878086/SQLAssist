@@ -42,6 +42,7 @@ public class AddCategoryTab extends Tab {
                 categoryTable.createCategory(nameField.getText());
                 nameField.clear();
                 refreshList(listView);
+                AddItemTab.getInstance().refreshCategories();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -55,6 +56,7 @@ public class AddCategoryTab extends Tab {
             if (selected != null) {
                 categoryTable.deleteCategory(selected.getId());
                 refreshList(listView);
+                AddItemTab.getInstance().refreshCategories();
                 StatisticsTab.getInstance().generateChart();
             }
         });

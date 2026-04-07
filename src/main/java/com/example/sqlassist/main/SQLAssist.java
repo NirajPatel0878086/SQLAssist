@@ -39,6 +39,7 @@ public class SQLAssist extends Application {
         tabPane.getTabs().addAll(
                 AddCategoryTab.getInstance(),
                 AddItemTab.getInstance(),
+                UpdateItemTab.getInstance(),
                 RemoveItemTab.getInstance(),
                 ViewByCategoryTab.getInstance(),
                 StatisticsTab.getInstance()
