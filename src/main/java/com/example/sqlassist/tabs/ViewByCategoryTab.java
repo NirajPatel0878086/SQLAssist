@@ -75,6 +75,7 @@ public class ViewByCategoryTab  extends Tab {
             Category selectedCategory = categoryComboBox.getSelectionModel().getSelectedItem();
             if (selectedCategory != null) {
                 tableView.getItems().clear();
+                AddItemTab.getInstance().refreshCategories();
                 tableView.getItems().addAll(
                         itemTable.getItemsByCategoryId(selectedCategory.getId())
                 );
