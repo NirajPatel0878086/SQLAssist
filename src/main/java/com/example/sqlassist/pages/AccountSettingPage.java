@@ -1,8 +1,10 @@
 package com.example.sqlassist.pages;
+import com.example.sqlassist.SoundPlayer;
 import com.example.sqlassist.database.Database;
 import com.example.sqlassist.main.SQLAssist;
 
 import com.example.sqlassist.models.DbSetting;
+import com.example.sqlassist.utils.Animations;
 import com.example.sqlassist.utils.FileUtil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,24 +13,26 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class AccountSettingPage {
 
     public static void show(Stage stage) {
 
         //page title
         Label title = new Label("Account Settings");
-        title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        //set title font size and bold type
+        title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
         // Labels
         Label serverLabel = new Label("Server Location");
         Label dbLabel = new Label("Database Name");
         Label userLabel = new Label("Username");
         Label passLabel = new Label("Password");
-
-        serverLabel.setStyle("-fx-font-weight: bold;");
-        dbLabel.setStyle("-fx-font-weight: bold;");
-        userLabel.setStyle("-fx-font-weight: bold;");
-        passLabel.setStyle("-fx-font-weight: bold;");
+        //set lable font size and make it bold
+        serverLabel.setStyle("-fx-font-size:14px; -fx-font-weight:bold;");
+        dbLabel.setStyle("-fx-font-size:14px; -fx-font-weight:bold;");
+        userLabel.setStyle("-fx-font-size:14px; -fx-font-weight:bold;");
+        passLabel.setStyle("-fx-font-size:14px; -fx-font-weight:bold;");
 
         // Input Fields
         TextField serverField = new TextField();
@@ -42,13 +46,25 @@ public class AccountSettingPage {
         userField.setMaxWidth(250);
         passField.setMaxWidth(250);
 
+        // CSS for input fields set with background radius with font size
+        serverField.setStyle("-fx-font-size:14px; -fx-background-radius:8;");
+        dbField.setStyle("-fx-font-size:14px; -fx-background-radius:8;");
+        userField.setStyle("-fx-font-size:14px; -fx-background-radius:8;");
+        passField.setStyle("-fx-font-size:14px; -fx-background-radius:8;");
+
         //Buttons
         Button saveBtn = new Button("Save Settings");
         Button testBtn = new Button("Test Connection");
         Button backBtn = new Button("Back");
 
-        //message label for showing result
+        // Button CSS background color, font size and bold type
+        saveBtn.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-background-color:#4CAF50; -fx-text-fill:white;");
+        testBtn.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-background-color:#2196F3; -fx-text-fill:white;");
+        backBtn.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-background-color:#9e9e9e; -fx-text-fill:white;");
+
+        //message label
         Label messageLabel = new Label();
+        messageLabel.setStyle("-fx-font-size:13px; -fx-text-fill:#e74c3c; -fx-font-weight:bold;");
 
         // Load saved settings
         try {
@@ -65,6 +81,9 @@ public class AccountSettingPage {
 
         // Save button
         saveBtn.setOnAction(e -> {
+
+            SoundPlayer.click();
+
             DbSetting setting = new DbSetting(
                     serverField.getText(),
                     dbField.getText(),
@@ -73,19 +92,28 @@ public class AccountSettingPage {
             );
 
             try {
-                //Save login information to settings
                 FileUtil.save(setting);
                 messageLabel.setText("Settings saved successfully.");
-                //if info correct and saved than it will open main application
+
+                SoundPlayer.playSuccess();
                 SQLAssist.showMainApp(stage);
+
             } catch (Exception ex) {
+
                 messageLabel.setText("Failed to save settings.");
+
+                SoundPlayer.playError();
+                Animations.shake(messageLabel);
             }
         });
 
-        // Test Database connection button
+        // Test Database connection
         testBtn.setOnAction(e -> {
+
+            SoundPlayer.click();
+
             try {
+
                 DbSetting setting = new DbSetting(
                         serverField.getText(),
                         dbField.getText(),
@@ -96,41 +124,56 @@ public class AccountSettingPage {
                 FileUtil.save(setting);
 
                 Database.getInstance();
+
                 messageLabel.setText("Connection successful.");
+                SoundPlayer.playSuccess();
+
             } catch (Exception ex) {
+
                 messageLabel.setText("Connection failed.");
+
+                SoundPlayer.playError();
+                Animations.shake(messageLabel);
                 ex.printStackTrace();
             }
         });
 
-        //Back button to go home
-        backBtn.setText("Back");
-        backBtn.setOnAction(e -> HomePage.show(stage));
+        //Back button
+        backBtn.setOnAction(e -> {
+
+            SoundPlayer.click();
+            HomePage.show(stage);
+
+        });
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
         layout.setAlignment(Pos.CENTER_LEFT);
 
+        // Page background CSS
+        layout.setStyle("-fx-background-color:lightblue;");
+
         layout.getChildren().addAll(
                 title,
-
                 serverLabel,
                 serverField,
-
                 dbLabel,
                 dbField,
-
                 userLabel,
                 userField,
-
                 passLabel,
                 passField,
-
                 saveBtn,
                 testBtn,
                 messageLabel,
                 backBtn
         );
+
+        //Animations
+        Animations.fadeIn(layout, 400);
+        Animations.addHoverScale(saveBtn);
+        Animations.addHoverScale(testBtn);
+        Animations.addHoverScale(backBtn);
 
         Scene scene = new Scene(layout, 500, 500);
         stage.setScene(scene);

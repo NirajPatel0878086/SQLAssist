@@ -17,32 +17,58 @@ public class AddCategoryTab extends Tab {
     private static AddCategoryTab instance;
 
     private AddCategoryTab() {
+
         this.setText("Add Category");
 
         GridPane root = new GridPane();
         root.setHgap(10);
         root.setVgap(10);
 
+        // Background CSS
+        root.setStyle("-fx-background-color: lightblue; -fx-padding:20;");
+
         CategoryTable categoryTable = CategoryTable.getInstance();
 
         Label nameLabel = new Label("Category Name:");
+        nameLabel.setStyle("-fx-font-size:14px; -fx-font-weight:bold;");
+
         TextField nameField = new TextField();
+        nameField.setStyle("-fx-font-size:14px;");
 
         Button addBtn = new Button("Add Category");
         Button loadBtn = new Button("Load Categories");
         Button deleteBtn = new Button("Delete Selected");
+
+        // Same button width
+        addBtn.setPrefWidth(160);
+        loadBtn.setPrefWidth(160);
+        deleteBtn.setPrefWidth(160);
+
+        // Button CSS white with black border
+        String buttonStyle =
+                "-fx-font-size:14px;" +
+                        "-fx-font-weight:bold;" +
+                        "-fx-background-color:white;" +
+                        "-fx-text-fill:black;" +
+                        "-fx-border-color:black;" +
+                        "-fx-border-width:2;";
+
+        addBtn.setStyle(buttonStyle);
+        loadBtn.setStyle(buttonStyle);
+        deleteBtn.setStyle(buttonStyle);
 
         //This will display all the categories in listview
         ListView<Category> listView = new ListView<>();
         listView.setPrefHeight(200);
         listView.setPrefWidth(250);
 
+        listView.setStyle("-fx-font-size:13px;");
+
         addBtn.setOnAction(e -> {
             try {
                 categoryTable.createCategory(nameField.getText());
                 nameField.clear();
                 refreshList(listView);
-                AddItemTab.getInstance().refreshCategories();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -51,12 +77,12 @@ public class AddCategoryTab extends Tab {
         loadBtn.setOnAction(e -> refreshList(listView));
 
         deleteBtn.setOnAction(e -> {
+
             Category selected = listView.getSelectionModel().getSelectedItem();
 
             if (selected != null) {
                 categoryTable.deleteCategory(selected.getId());
                 refreshList(listView);
-                AddItemTab.getInstance().refreshCategories();
                 StatisticsTab.getInstance().generateChart();
             }
         });
@@ -72,6 +98,7 @@ public class AddCategoryTab extends Tab {
     }
 
     private void refreshList(ListView<Category> listView) {
+
         CategoryTable categoryTable = CategoryTable.getInstance();
         ArrayList<Category> categories = categoryTable.getAllCategories();
 
@@ -80,9 +107,11 @@ public class AddCategoryTab extends Tab {
     }
 
     public static AddCategoryTab getInstance() {
+
         if (instance == null) {
             instance = new AddCategoryTab();
         }
+
         return instance;
     }
 }
