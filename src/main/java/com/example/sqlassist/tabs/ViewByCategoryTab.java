@@ -49,14 +49,14 @@ public class ViewByCategoryTab extends Tab {
 
         Button loadBtn = new Button("Load");
 
-        // UPDATED BUTTON STYLE White and black border
+        // Button CSS white background with black border
         loadBtn.setStyle(
                 "-fx-font-size:14px;" +
                         "-fx-font-weight:bold;" +
                         "-fx-background-color:white;" +
                         "-fx-text-fill:black;" +
                         "-fx-border-color:black;" +
-                        "-fx-border-width:2px;"
+                        "-fx-border-width:2;"
         );
 
         topBox.getChildren().addAll(categoryLabel, categoryComboBox, loadBtn);
@@ -93,6 +93,7 @@ public class ViewByCategoryTab extends Tab {
                 categoryColumn
         );
 
+        // Load Button Action
         loadBtn.setOnAction(e -> {
 
             Category selectedCategory = categoryComboBox.getSelectionModel().getSelectedItem();
