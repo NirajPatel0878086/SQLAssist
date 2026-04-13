@@ -4,6 +4,7 @@ module com.example.sqlassist {
     requires java.sql;
     requires java.desktop;
     requires javafx.media;
+    requires mysql.connector.j;
 
     opens com.example.sqlassist to javafx.fxml;
     exports com.example.sqlassist;

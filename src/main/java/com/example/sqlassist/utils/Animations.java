@@ -49,7 +49,7 @@ public class Animations {
         tt.play();
     }
 
-    //Bounce animation
+    //scale transition
     public static void clickBounce(Node node) {
         ScaleTransition st = new ScaleTransition(Duration.millis(120), node);
         st.setFromX(1.0);
