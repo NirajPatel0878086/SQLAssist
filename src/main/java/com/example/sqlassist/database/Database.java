@@ -31,7 +31,7 @@ public class Database {
             }
             //Create Database connection with MYSQL database
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://" + setting.server + ":3307/" + setting.database + "?useSSL=false&serverTimezone=UTC",
+                    "jdbc:mysql://" + setting.server + ":3306/" + setting.database + "?useSSL=false&serverTimezone=UTC",
                     setting.username,
                     setting.password
             );
