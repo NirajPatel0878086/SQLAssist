@@ -41,6 +41,8 @@ public class HomePage {
                 subtitle,
                 loginBtn
         );
+        //background color
+        layout.setStyle("-fx-background-color: #CED3D8;");
 
         //Animation
         Animations.fadeIn(layout, 500);

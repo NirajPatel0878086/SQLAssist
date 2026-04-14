@@ -24,9 +24,14 @@ public class AddCategoryTab extends Tab {
         root.setHgap(10);
         root.setVgap(10);
 
+        //background color
+        root.setStyle("-fx-background-color: #BDC4CB;");
+
+
         CategoryTable categoryTable = CategoryTable.getInstance();
 
         Label nameLabel = new Label("Category Name:");
+        nameLabel.setStyle("-fx-font-weight: bold;");
         TextField nameField = new TextField();
 
         Button addBtn = new Button("Add Category");

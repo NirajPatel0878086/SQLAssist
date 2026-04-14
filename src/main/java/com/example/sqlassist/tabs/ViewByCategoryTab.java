@@ -21,6 +21,8 @@ public class ViewByCategoryTab  extends Tab {
         this.setText("View by Category");
 
         BorderPane root = new BorderPane();
+        //background color
+        root.setStyle("-fx-background-color: #BDC4CB;");
 
         CategoryTable categoryTable = CategoryTable.getInstance();
         ItemTable itemTable = ItemTable.getInstance();
@@ -29,6 +31,7 @@ public class ViewByCategoryTab  extends Tab {
         HBox topBox = new HBox(10);
 
         Text categoryLabel = new Text("Category");
+        categoryLabel.setStyle("-fx-font-weight: bold;");
         ComboBox<Category> categoryComboBox = new ComboBox<>();
         categoryComboBox.setPrefWidth(200);
         categoryComboBox.setItems(FXCollections.observableArrayList(categoryTable.getAllCategories()));

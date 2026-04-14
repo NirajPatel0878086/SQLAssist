@@ -23,27 +23,33 @@ public class AddItemTab extends Tab {
         this.setText("Add Item");
 
         GridPane root = new GridPane();
+        //background color
+        root.setStyle("-fx-background-color: #BDC4CB;");
         root.setHgap(10);
         root.setVgap(10);
 
         ItemTable itemTable = ItemTable.getInstance();
 
         Text nameLabel = new Text("Item Name:");
+        nameLabel.setStyle("-fx-font-weight: bold;");
         TextField nameField = new TextField();
         root.add(nameLabel, 0, 0);
         root.add(nameField, 1, 0);
 
         Text quantityLabel = new Text("Quantity:");
+        quantityLabel.setStyle("-fx-font-weight: bold;");
         TextField quantityField = new TextField();
         root.add(quantityLabel, 0, 1);
         root.add(quantityField, 1, 1);
 
         Text priceLabel = new Text("Price:");
+        priceLabel.setStyle("-fx-font-weight: bold;");
         TextField priceField = new TextField();
         root.add(priceLabel, 0, 2);
         root.add(priceField, 1, 2);
 
         Text categoryLabel = new Text("Category:");
+        categoryLabel.setStyle("-fx-font-weight: bold;");
         categoryComboBox = new ComboBox<>();
         refreshCategories();
         if (!categoryComboBox.getItems().isEmpty()) {

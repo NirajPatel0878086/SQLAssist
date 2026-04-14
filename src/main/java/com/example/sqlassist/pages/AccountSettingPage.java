@@ -137,7 +137,7 @@ public class AccountSettingPage {
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
-        layout.setAlignment(Pos.CENTER_LEFT);
+        layout.setAlignment(Pos.CENTER);
 
         layout.getChildren().addAll(
                 title,
@@ -159,6 +159,9 @@ public class AccountSettingPage {
                 messageLabel,
                 backBtn
         );
+
+        //Background color
+        layout.setStyle("-fx-background-color: #AAB4BC;");
 
         //Animations
         Animations.fadeIn(layout, 400);

@@ -1,8 +1,10 @@
 package com.example.sqlassist.tabs;
 
 import com.example.sqlassist.utils.Animations;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -11,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import com.example.sqlassist.models.Category;
 import com.example.sqlassist.table.CategoryTable;
 import com.example.sqlassist.table.ItemTable;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
@@ -23,10 +26,19 @@ public class StatisticsTab extends Tab {
         this.setText("Statistics");
 
         BorderPane root = new BorderPane();
+        //background color
+        root.setStyle("-fx-background-color: #BDC4CB;");
 
         chart = new PieChart();
         chart.setTitle("Items By Category");
         chart.setLabelsVisible(true);
+
+        Platform.runLater(() -> {
+            if (chart.lookup(".chart-title") != null) {
+                chart.lookup(".chart-title").setStyle("-fx-font-weight: bold;");
+            }
+        });
+
 
         Button refresh = new Button("Refresh");
 
@@ -43,8 +55,10 @@ public class StatisticsTab extends Tab {
         generateChart();
 
         root.setCenter(chart);
-        root.setBottom(refresh);
-        root.setCenter(refresh);
+        HBox bottomBox = new HBox(refresh);
+        bottomBox.setAlignment(Pos.CENTER);
+        root.setBottom(bottomBox);
+
 
         this.setContent(root);
 

@@ -4,6 +4,7 @@ import com.example.sqlassist.utils.Animations;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
@@ -12,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 
 import com.example.sqlassist.models.Item;
 import com.example.sqlassist.table.ItemTable;
+import javafx.scene.layout.HBox;
 
 public class RemoveItemTab extends Tab {
 
@@ -24,6 +26,8 @@ public class RemoveItemTab extends Tab {
         ItemTable itemTable = ItemTable.getInstance();
 
         BorderPane root = new BorderPane();
+        //background color
+        root.setStyle("-fx-background-color: #BDC4CB;");
 
         tableView = new TableView<>();
 
@@ -60,7 +64,7 @@ public class RemoveItemTab extends Tab {
         root.setCenter(tableView);
 
         Button removeItem = new Button("Remove Item");
-        root.setCenter(removeItem);
+
 
         //Hover animation
         Animations.addHoverScale(removeItem);
@@ -79,7 +83,9 @@ public class RemoveItemTab extends Tab {
             refreshTable();
             StatisticsTab.getInstance().generateChart();
         });
-        root.setBottom(removeItem);
+        HBox bottomBox = new HBox(removeItem);
+        bottomBox.setAlignment(Pos.CENTER);
+        root.setBottom(bottomBox);
 
         this.setContent(root);
 
