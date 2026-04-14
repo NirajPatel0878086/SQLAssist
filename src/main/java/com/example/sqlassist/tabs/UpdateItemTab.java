@@ -23,6 +23,8 @@ public class UpdateItemTab extends Tab {
         this.setText("Update Item");
 
         BorderPane root = new BorderPane();
+        //background color
+        root.setStyle("-fx-background-color: #BDC4CB;");
 
         CategoryTable categoryTable = CategoryTable.getInstance();
         ItemTable itemTable = ItemTable.getInstance();
@@ -31,6 +33,7 @@ public class UpdateItemTab extends Tab {
         HBox topBox = new HBox(10);
 
         Text categoryLabel = new Text("Category");
+        categoryLabel.setStyle("-fx-font-weight: bold;");
         ComboBox<Category> categoryComboBox = new ComboBox<>();
         categoryComboBox.setPrefWidth(200);
         categoryComboBox.setItems(FXCollections.observableArrayList(categoryTable.getAllCategories()));
@@ -84,12 +87,15 @@ public class UpdateItemTab extends Tab {
         form.setVgap(10);
 
         Text nameLabel = new Text("Item Name");
+        nameLabel.setStyle("-fx-font-weight: bold;");
         TextField nameField = new TextField();
 
         Text quantityLabel = new Text("Quantity");
+        quantityLabel.setStyle("-fx-font-weight: bold;");
         TextField quantityField = new TextField();
 
         Text priceLabel = new Text("Price");
+        priceLabel.setStyle("-fx-font-weight: bold;");
         TextField priceField = new TextField();
 
         Button updateBtn = new Button("Update");
