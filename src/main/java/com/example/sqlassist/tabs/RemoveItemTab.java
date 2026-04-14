@@ -1,5 +1,6 @@
 package com.example.sqlassist.tabs;
 
+import com.example.sqlassist.utils.Animations;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -59,18 +60,35 @@ public class RemoveItemTab extends Tab {
         root.setCenter(tableView);
 
         Button removeItem = new Button("Remove Item");
+
+        //Hover animation
+        Animations.addHoverScale(removeItem);
+
+        //bounce animation
+        removeItem.setOnMouseClicked(e-> Animations.clickBounce(removeItem));
+
         removeItem.setOnAction(e -> {
             Item selectedItem = tableView.getSelectionModel().getSelectedItem();
 
-            if (selectedItem != null) {
-                itemTable.deleteItem(selectedItem.getId());
-                refreshTable();
-                StatisticsTab.getInstance().generateChart();
+            if (selectedItem == null) {
+                Animations.shake(tableView);
+                return;
             }
+            itemTable.deleteItem(selectedItem.getId());
+            refreshTable();
+            StatisticsTab.getInstance().generateChart();
         });
         root.setBottom(removeItem);
 
         this.setContent(root);
+
+        //Animation tab
+        this.setOnSelectionChanged(e-> {
+            if(this.isSelected()){
+                Animations.fadeIn(this.getContent(), 250);
+                Animations.slideIn(this.getContent(), 250);
+            }
+        });
     }
 
     public void refreshTable() {
