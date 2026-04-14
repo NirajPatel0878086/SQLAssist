@@ -4,6 +4,8 @@ import com.example.sqlassist.models.Category;
 import com.example.sqlassist.models.Item;
 import com.example.sqlassist.table.CategoryTable;
 import com.example.sqlassist.table.ItemTable;
+import com.example.sqlassist.utils.Animations;
+import javafx.animation.Animation;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -38,6 +40,10 @@ public class UpdateItemTab extends Tab {
         }
 
         Button loadBtn = new Button("Load");
+
+        //Hover animation
+        Animations.addHoverScale(loadBtn);
+        loadBtn.setOnMouseClicked(e-> Animations.clickBounce(loadBtn));
 
         topBox.getChildren().addAll(categoryLabel, categoryComboBox, loadBtn);
 
@@ -88,6 +94,11 @@ public class UpdateItemTab extends Tab {
 
         Button updateBtn = new Button("Update");
 
+        //hover and click animation
+        Animations.addHoverScale(updateBtn);
+        updateBtn.setOnMouseClicked(e-> Animations.clickBounce(updateBtn));
+
+
         form.add(nameLabel, 0, 0);
         form.add(nameField, 1, 0);
 
@@ -125,7 +136,19 @@ public class UpdateItemTab extends Tab {
         updateBtn.setOnAction(e -> {
             Item selectedItem = tableView.getSelectionModel().getSelectedItem();
 
-            if (selectedItem != null) {
+            if (selectedItem == null) {
+                Animations.shake(tableView);
+                return;
+            }
+
+            if(nameField.getText().trim().isEmpty() ||
+            quantityField.getText().trim().isEmpty() ||
+            priceField.getText().trim().isEmpty()) {
+                if(nameField.getText().trim().isEmpty()) Animations.shake(nameField);
+                if(quantityField.getText().trim().isEmpty()) Animations.shake(quantityField);
+                if(priceField.getText().trim().isEmpty()) Animations.shake(priceField);
+                return;
+            }
                 try {
                     selectedItem.setName(nameField.getText());
                     selectedItem.setQuantity(Integer.parseInt(quantityField.getText()));
@@ -150,7 +173,7 @@ public class UpdateItemTab extends Tab {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }
+
         });
 
         root.setTop(topBox);
@@ -158,6 +181,14 @@ public class UpdateItemTab extends Tab {
         root.setRight(form);
 
         this.setContent(root);
+
+        //Animation tab
+        this.setOnSelectionChanged(e-> {
+            if(this.isSelected()){
+                Animations.fadeIn(this.getContent(), 250);
+                Animations.slideIn(this.getContent(), 250);
+            }
+        });
     }
 
     public static UpdateItemTab getInstance() {
