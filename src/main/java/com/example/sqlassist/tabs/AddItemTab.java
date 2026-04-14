@@ -1,5 +1,6 @@
 package com.example.sqlassist.tabs;
 
+import com.example.sqlassist.utils.Animations;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -52,7 +53,25 @@ public class AddItemTab extends Tab {
         root.add(categoryComboBox, 1, 3);
 
         Button submit = new Button("Submit");
+
+        //Hover animation
+        Animations.addHoverScale(submit);
+
+        //bounce animation
+        submit.setOnMouseClicked(e->
+            Animations.clickBounce(submit)
+        );
+
         submit.setOnAction(e -> {
+            if (nameField.getText().trim().isEmpty() ||
+            quantityField.getText().trim().isEmpty() ||
+            priceField.getText().trim().isEmpty()){
+                //shaking all the empty fields
+                if(nameField.getText().trim().isEmpty()) Animations.shake(nameField);
+                if(quantityField.getText().trim().isEmpty()) Animations.shake(quantityField);
+                if(priceField.getText().trim().isEmpty()) Animations.shake(priceField);
+                return;
+            }
             try {
                 Item item = new Item(
                         nameField.getText(),
@@ -81,6 +100,14 @@ public class AddItemTab extends Tab {
         root.add(submit, 0, 4);
 
         this.setContent(root);
+
+        //Animation tab
+        this.setOnSelectionChanged(e -> {
+            if (this.isSelected()){
+                Animations.fadeIn(this.getContent(), 250);
+                Animations.slideIn(this.getContent(), 250);
+            }
+        });
     }
     //Refresh Category method
     public void refreshCategories(){
