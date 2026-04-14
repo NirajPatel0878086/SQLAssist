@@ -42,7 +42,8 @@ public class SQLAssist extends Application {
                 UpdateItemTab.getInstance(),
                 RemoveItemTab.getInstance(),
                 ViewByCategoryTab.getInstance(),
-                StatisticsTab.getInstance()
+                StatisticsTab.getInstance(),
+                CreditTab.getInstance()
         );
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
