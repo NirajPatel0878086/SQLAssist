@@ -60,6 +60,7 @@ public class RemoveItemTab extends Tab {
         root.setCenter(tableView);
 
         Button removeItem = new Button("Remove Item");
+        root.setCenter(removeItem);
 
         //Hover animation
         Animations.addHoverScale(removeItem);
