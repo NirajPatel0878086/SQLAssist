@@ -1,5 +1,6 @@
 package com.example.sqlassist.tabs;
 
+import com.example.sqlassist.utils.Animations;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -28,6 +29,13 @@ public class StatisticsTab extends Tab {
         chart.setLabelsVisible(true);
 
         Button refresh = new Button("Refresh");
+
+        //Hover animation
+        Animations.addHoverScale(refresh);
+
+        //bounce animation
+        refresh.setOnMouseClicked(e -> Animations.clickBounce(refresh));
+
         refresh.setOnAction(e -> {
             generateChart();
         });
@@ -38,6 +46,14 @@ public class StatisticsTab extends Tab {
         root.setBottom(refresh);
 
         this.setContent(root);
+
+        //Animation tab
+        this.setOnSelectionChanged(e-> {
+            if(this.isSelected()){
+                Animations.fadeIn(this.getContent(), 250);
+                Animations.slideIn(this.getContent(), 250);
+            }
+        });
     }
 
     public void generateChart() {
@@ -57,6 +73,9 @@ public class StatisticsTab extends Tab {
                 FXCollections.observableArrayList(data);
 
         chart.setData(chartData);
+
+        //Animation on refresh chart
+        Animations.fadeIn(chart, 300);
     }
 
     public static StatisticsTab getInstance() {
