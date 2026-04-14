@@ -1,5 +1,6 @@
 package com.example.sqlassist.tabs;
 
+import com.example.sqlassist.utils.Animations;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -37,7 +38,21 @@ public class AddCategoryTab extends Tab {
         listView.setPrefHeight(200);
         listView.setPrefWidth(250);
 
+        //Animation
+        Animations.addHoverScale(addBtn);
+        Animations.addHoverScale(loadBtn);
+        Animations.addHoverScale(deleteBtn);
+
+        //bounce animation
+        addBtn.setOnMouseClicked(e-> Animations.clickBounce(addBtn));
+        loadBtn.setOnMouseClicked(e-> Animations.clickBounce(loadBtn));
+        deleteBtn.setOnMouseClicked(e-> Animations.clickBounce(deleteBtn));
+
         addBtn.setOnAction(e -> {
+            if(nameField.getText().trim().isEmpty()){
+                Animations.shake(nameField);
+                return;
+            }
             try {
                 categoryTable.createCategory(nameField.getText());
                 nameField.clear();
@@ -69,6 +84,14 @@ public class AddCategoryTab extends Tab {
         root.add(listView, 0, 3, 2, 1);
 
         this.setContent(root);
+
+        //Animation tab
+        this.setOnSelectionChanged(e-> {
+            if(this.isSelected()) {
+                Animations.fadeIn(this.getContent(), 250);
+                Animations.slideIn(this.getContent(), 250);
+            }
+        });
     }
 
     private void refreshList(ListView<Category> listView) {
