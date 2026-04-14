@@ -44,6 +44,7 @@ public class StatisticsTab extends Tab {
 
         root.setCenter(chart);
         root.setBottom(refresh);
+        root.setCenter(refresh);
 
         this.setContent(root);
 
