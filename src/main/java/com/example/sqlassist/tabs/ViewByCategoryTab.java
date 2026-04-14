@@ -4,6 +4,7 @@ import com.example.sqlassist.models.Category;
 import com.example.sqlassist.models.Item;
 import com.example.sqlassist.table.CategoryTable;
 import com.example.sqlassist.table.ItemTable;
+import com.example.sqlassist.utils.Animations;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -37,6 +38,10 @@ public class ViewByCategoryTab  extends Tab {
         }
 
         Button loadBtn = new Button("Load");
+
+        //Hover and click animation
+        Animations.addHoverScale(loadBtn);
+        loadBtn.setOnMouseClicked(e-> Animations.clickBounce(loadBtn));
 
         topBox.getChildren().addAll(categoryLabel,categoryComboBox ,loadBtn);
 
@@ -85,6 +90,14 @@ public class ViewByCategoryTab  extends Tab {
         root.setCenter(tableView);
 
         this.setContent(root);
+
+        //Animation tab
+        this.setOnSelectionChanged(e-> {
+            if (this.isSelected()) {
+                Animations.fadeIn(this.getContent(), 250);
+                Animations.slideIn(this.getContent(), 250);
+            }
+        });
     }
     public static ViewByCategoryTab getInstance(){
         if (instance == null){
