@@ -55,7 +55,7 @@ public class RemoveItemTab extends Tab {
         );
 
         tableView.getItems().addAll(itemTable.getAllItems());
-
+        refreshTable();
         root.setCenter(tableView);
 
         Button removeItem = new Button("Remove Item");
@@ -68,14 +68,6 @@ public class RemoveItemTab extends Tab {
                 StatisticsTab.getInstance().generateChart();
             }
         });
-
-        tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                UpdateItemPane pane = new UpdateItemPane(newValue);
-                root.setRight(pane);
-            }
-        });
-
         root.setBottom(removeItem);
 
         this.setContent(root);
